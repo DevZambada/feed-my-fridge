@@ -12,8 +12,6 @@ import EditRecipe, {
   action as editRecipeAction,
 } from "./pages/EditRecipe";
 import { action as deleteRecipeAction } from "./components/Recipe";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
 
 const router = createBrowserRouter([
   {

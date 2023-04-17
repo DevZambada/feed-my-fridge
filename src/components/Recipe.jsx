@@ -27,7 +27,7 @@ function Recipe({ recipe }) {
       <td className="p-6 flex gap-3">
         <button
           type="button"
-          className="text-blue-600 hover:text-blue-700 uppercase font-bold text-xs"
+          className="text-gray-600 hover:text-gray-900 uppercase font-bold text-xs"
           onClick={() => navigate(`/recipes/${id}/edit`)}
         >
           Edit

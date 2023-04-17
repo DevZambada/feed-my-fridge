@@ -13,12 +13,12 @@ function Display() {
 
   return (
     <>
-      <h1 className="font-black text-4xl text-blue-900">Recipes</h1>
+      <h1 className="font-black text-4xl text-gray-900">Recipes</h1>
       <p className="mt-3">Review your favorite recipes</p>
 
-      {recipes.length ? (
+      {recipes.data.length ? (
         <table className="w-full bg-white shadow-lg rounded-lg overflow-hidden mt-5">
-          <thead className="bg-blue-800 text-white">
+          <thead className="bg-gray-900 text-white">
             <tr>
               <th className="p-4 text-left">Name</th>
               <th className="p-4 text-left">Ingredients</th>
@@ -27,7 +27,7 @@ function Display() {
             </tr>
           </thead>
           <tbody>
-            {recipes.map((recipe) => (
+            {recipes.data.map((recipe) => (
               <Recipe recipe={recipe} key={recipe.id} />
             ))}
           </tbody>

@@ -42,14 +42,16 @@ function EditRecipe() {
   const recipe = useLoaderData();
   const errores = useActionData();
 
+  console.log(recipe.id);
+
   return (
     <>
-      <h1 className="font-black text-4xl text-blue-900">Editar Receta</h1>
+      <h1 className="font-black text-4xl text-gray-900">Edit Recipe</h1>
       <p className="mt-3">Edit the information for your recipes</p>
 
       <div className="flex justify-end">
         <button
-          className="bg-blue-800 text-white px-3 py-1 font-bold uppercase"
+          className="bg-gray-800 text-white px-3 py-1 font-bold uppercase"
           onClick={() => navigate(-1)}
         >
           Return
@@ -65,7 +67,7 @@ function EditRecipe() {
 
           <input
             type="submit"
-            className="mt-5 w-full bg-blue-800 p-3 uppercase font-bold text-white text-lg"
+            className="mt-5 w-full bg-gray-800 p-3 uppercase font-bold text-white text-lg"
             value="Save Changes"
           />
         </Form>

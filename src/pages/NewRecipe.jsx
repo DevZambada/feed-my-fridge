@@ -9,7 +9,7 @@ export async function action({ request }) {
 
   const errores = [];
   if (Object.values(datos).includes("")) {
-    errores.push("Todos los campos son obligatorios");
+    errores.push("Every field is required");
   }
 
   if (Object.keys(errores).length) {
@@ -27,12 +27,12 @@ function NewRecipe() {
 
   return (
     <>
-      <h1 className="font-black text-4xl text-blue-900">New Recipe</h1>
+      <h1 className="font-black text-4xl text-gray-900">New Recipe</h1>
       <p className="mt-3">Fill the required information to add a new recipe</p>
 
       <div className="flex justify-end">
         <button
-          className="bg-blue-800 text-white px-3 py-1 font-bold uppercase"
+          className="bg-gray-800 text-white px-3 py-1 font-bold uppercase"
           onClick={() => navigate(-1)}
         >
           Return
@@ -48,7 +48,7 @@ function NewRecipe() {
 
           <input
             type="submit"
-            className="mt-5 w-full bg-blue-800 p-3 uppercase font-bold text-white text-lg"
+            className="mt-5 w-full bg-gray-800 p-3 uppercase font-bold text-white text-lg"
             value="Add Recipe"
           />
         </Form>
