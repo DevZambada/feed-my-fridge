@@ -26,12 +26,10 @@
   export async function getReceta(id) {
     const respuesta = await supabaseApi
     .from('Recipes')
-    .select('*')
+    .select()
     .eq('id', id)
 
-    console.log(id)
-
-    return respuesta;
+    return respuesta.data;
   }
 
   // export async function addRecipe(datos) {
@@ -56,8 +54,6 @@
         const respuesta = await supabaseApi
         .from('Recipes')
         .insert(datos)
-
-        console.log(respuesta)
 
       }
       catch (error) {
@@ -87,8 +83,6 @@
       .from('Recipes')
       .update(datos)
       .eq('id', id)
-
-      console.log(respuesta)
     }
     catch (error) {
       console.log(error);

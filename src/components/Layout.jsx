@@ -55,8 +55,8 @@ function Layout() {
           <nav className="mt-10">
             <Link
               className={`${
-                location.pathname === "/" ? "text-gray-500" : "text-white"
-              } text-2xl block mt-2 hover:text-gray-500`}
+                location.pathname === "/" ? "text-white" : "text-gray-500"
+              } text-2xl block mt-2 hover:text-white`}
               to="/"
             >
               Recipes
@@ -64,16 +64,16 @@ function Layout() {
             <Link
               className={`${
                 location.pathname === "/recipes/new"
-                  ? "text-gray-500"
-                  : "text-white"
-              } text-2xl block mt-2 hover:text-gray-500`}
+                  ? "text-white"
+                  : "text-gray-500"
+              } text-2xl block mt-2 hover:text-white`}
               to="/recipes/new"
             >
               New Recipe
             </Link>
             <Link
               onClick={logoutSupabase}
-              className={`text-white text-2xl block mt-2 hover:text-gray-500`}
+              className={"text-gray-500 text-2xl block mt-2 hover:text-white"}
             >
               Logout
             </Link>
