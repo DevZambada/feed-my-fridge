@@ -1,14 +1,18 @@
 import { useState, useEffect } from "react";
+import { Outlet, Link, useLocation } from "react-router-dom";
+import { client as supabaseApi } from "../data/supabase";
 import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { LogoutIcon } from "../icons";
 
-const client = createClient(
-  "https://zjhmrnstdyhghaqupqxr.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqaG1ybnN0ZHloZ2hhcXVwcXhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODEyNDYzMDMsImV4cCI6MTk5NjgyMjMwM30.ISWgU3QCPb73DsPphHPNpWAMT_xUKA25UvYXc8IqeWs"
-);
+// const client = createClient(
+//   "https://zjhmrnstdyhghaqupqxr.supabase.co",
+//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqaG1ybnN0ZHloZ2hhcXVwcXhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODEyNDYzMDMsImV4cCI6MTk5NjgyMjMwM30.ISWgU3QCPb73DsPphHPNpWAMT_xUKA25UvYXc8IqeWs"
+// );
+
+const client = supabaseApi;
 
 const logoutSupabase = () => {
   client.auth.signOut();
@@ -49,34 +53,41 @@ function Layout() {
     return (
       <div className="md:flex md:min-h-screen">
         <aside className="md:w-1/4 bg-gray-900 px-5 py-10">
-          <h2 className="text-4xl font-black text-center text-white">
+          <h2 className="text-4xl font-black text-start ml-3 text-white">
             Feed My Fridge
           </h2>
-          <nav className="mt-10">
-            <Link
-              className={`${
-                location.pathname === "/" ? "text-white" : "text-gray-500"
-              } text-2xl block mt-2 hover:text-white`}
-              to="/"
-            >
-              Recipes
-            </Link>
-            <Link
-              className={`${
-                location.pathname === "/recipes/new"
-                  ? "text-white"
-                  : "text-gray-500"
-              } text-2xl block mt-2 hover:text-white`}
-              to="/recipes/new"
-            >
-              New Recipe
-            </Link>
-            <Link
-              onClick={logoutSupabase}
-              className={"text-gray-500 text-2xl block mt-2 hover:text-white"}
-            >
-              Logout
-            </Link>
+          <nav className="flex flex-col justify-between h-full pb-10 pl-3">
+            <div className="mt-8">
+              <Link
+                className={`${
+                  location.pathname === "/" ? "text-white" : "text-gray-500"
+                } text-2xl block mt-2 hover:text-white font-bold`}
+                to="/"
+              >
+                Recipes
+              </Link>
+              <Link
+                className={`${
+                  location.pathname === "/recipes/new"
+                    ? "text-white"
+                    : "text-gray-500"
+                } text-2xl block mt-2 hover:text-white font-bold`}
+                to="/recipes/new"
+              >
+                New Recipe
+              </Link>
+            </div>
+            <div>
+              <Link
+                onClick={logoutSupabase}
+                className={
+                  "text-gray-500 text-2xl mt-2 hover:text-white font-bold flex flex-row p-2"
+                }
+              >
+                <LogoutIcon />
+                <label className="ml-3 flex">Logout</label>
+              </Link>
+            </div>
           </nav>
         </aside>
 

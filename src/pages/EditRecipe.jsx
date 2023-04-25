@@ -61,7 +61,7 @@ function EditRecipe() {
           errores.map((error, i) => <Error key={i}>{error}</Error>)}
 
         <Form method="post" noValidate>
-          <Formulario recipe={recipe} />
+          <Formulario recipe={recipe[0]} />
 
           <input
             type="submit"

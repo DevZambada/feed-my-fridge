@@ -1,6 +1,4 @@
 const Formulario = ({ recipe }) => {
-  const { name, ingredients, steps } = recipe[0];
-
   return (
     <>
       <div className="mb-4">
@@ -13,7 +11,7 @@ const Formulario = ({ recipe }) => {
           className="mt-2 block w-full p-3 bg-gray-50"
           placeholder="Recipe Name"
           name="name"
-          defaultValue={name}
+          defaultValue={recipe?.name}
         />
       </div>
       <div className="mb-4">
@@ -26,7 +24,7 @@ const Formulario = ({ recipe }) => {
           className="mt-2 block w-full p-3 bg-gray-50"
           placeholder="Recipe Ingredients"
           name="ingredients"
-          defaultValue={ingredients}
+          defaultValue={recipe?.ingredients}
         />
       </div>
 
@@ -41,7 +39,7 @@ const Formulario = ({ recipe }) => {
           className="mt-2 block w-full p-3 bg-gray-50 h-40 align-self"
           placeholder="Steps"
           name="steps"
-          defaultValue={steps}
+          defaultValue={recipe?.steps}
         />
       </div>
     </>

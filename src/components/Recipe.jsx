@@ -1,5 +1,6 @@
 import { useNavigate, Form, redirect } from "react-router-dom";
 import { deleteRecipe } from "../data/recipes";
+import { EditIcon, DeleteIcon } from "../icons";
 
 export async function action({ params }) {
   await deleteRecipe(params.recipeId);
@@ -24,13 +25,13 @@ function Recipe({ recipe }) {
         <p className="text-gray-600">{steps}</p>
       </td>
 
-      <td className="p-6 flex gap-3">
+      <td className="p-6 flex gap-3 flex-col align-middle">
         <button
           type="button"
           className="text-gray-600 hover:text-gray-900 uppercase font-bold text-xs"
           onClick={() => navigate(`/recipes/${id}/edit`)}
         >
-          Edit
+          <EditIcon />
         </button>
 
         <Form
@@ -44,9 +45,9 @@ function Recipe({ recipe }) {
         >
           <button
             type="submit"
-            className="text-red-600 hover:text-red-700 uppercase font-bold text-xs"
+            className="text-red-600 hover:text-red-700 uppercase font-bold text-xs mt-5"
           >
-            Delete
+            <DeleteIcon />
           </button>
         </Form>
       </td>
