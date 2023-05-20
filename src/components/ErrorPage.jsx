@@ -5,7 +5,7 @@ export default function ErrorPage() {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-center text-6xl font-extrabold mt-20 text-blue-900">
+      <h1 className="text-center text-6xl font-extrabold mt-20 text-[#008914]">
         Feed My Fridge
       </h1>
       <p className="text-center">There was a mistake</p>

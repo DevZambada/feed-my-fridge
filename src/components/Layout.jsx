@@ -1,16 +1,12 @@
 import { useState, useEffect } from "react";
-import { Outlet, Link, useLocation } from "react-router-dom";
+import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { client as supabaseApi } from "../data/supabase";
-import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 
-import { LogoutIcon } from "../icons";
-
-// const client = createClient(
-//   "https://zjhmrnstdyhghaqupqxr.supabase.co",
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpqaG1ybnN0ZHloZ2hhcXVwcXhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2ODEyNDYzMDMsImV4cCI6MTk5NjgyMjMwM30.ISWgU3QCPb73DsPphHPNpWAMT_xUKA25UvYXc8IqeWs"
-// );
+import { LogoutIcon, UserIcon, CartIcon } from "../icons";
+import LogoWhite2 from "../assets/LogoWhite.svg";
+import BackgroundStripes from "../assets/BackgroundStripes.svg";
 
 const client = supabaseApi;
 
@@ -19,8 +15,22 @@ const logoutSupabase = () => {
 };
 
 function Layout() {
+  const navigate = useNavigate();
   const location = useLocation();
   const [session, setSession] = useState(null);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await client.auth.getUser();
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        setUser(data.user);
+      }
+    };
+    fetchUser();
+  }, []);
 
   useEffect(() => {
     client.auth.getSession().then(({ data: { session } }) => {
@@ -39,7 +49,7 @@ function Layout() {
   if (!session) {
     return (
       <div className="h-screen w-screen justify-center flex items-center bg-gray-900">
-        <div className="p-5 border-solid border-2 border-gray-700 rounded-lg w-[400px]">
+        <div className="p-5 border-solid border-2 border-gray-700 rounded-lg w-[400px] ">
           <Auth
             supabaseClient={client}
             appearance={{
@@ -51,50 +61,85 @@ function Layout() {
     );
   } else {
     return (
-      <div className="md:flex md:min-h-screen">
-        <aside className="md:w-1/4 bg-gray-900 px-5 py-10">
-          <h2 className="text-4xl font-black text-start ml-3 text-white">
-            Feed My Fridge
-          </h2>
-          <nav className="flex flex-col justify-between h-full pb-10 pl-3">
-            <div className="mt-8">
-              <Link
-                className={`${
-                  location.pathname === "/" ? "text-white" : "text-gray-500"
-                } text-2xl block mt-2 hover:text-white font-bold`}
-                to="/"
-              >
-                Recipes
-              </Link>
-              <Link
-                className={`${
-                  location.pathname === "/recipes/new"
-                    ? "text-white"
-                    : "text-gray-500"
-                } text-2xl block mt-2 hover:text-white font-bold`}
-                to="/recipes/new"
-              >
-                New Recipe
-              </Link>
+      // <div className="md:flex md:min-h-screen">
+      <>
+        <div className="w-full overflow-hidden flex flex-col min-h-screen">
+          <aside className="fixed flex flex-row justify-between h-[100px] w-full bg-[#008914] ">
+            <div
+              className="mx-5 my-1 w-1/8 cursor-pointer"
+              onClick={() => navigate("/")}
+            >
+              <img src={LogoWhite2} alt="Logo Icon" className="w-[200px]" />
             </div>
-            <div>
+            <div className="w-3/8 flex flex-col justify-center">
+              <h2 className="text-md font-black text-start text-[#ffffff] ">
+                {user && <p>Hello, {user.email}</p>}
+              </h2>
+            </div>
+            <div className="flex justify-center w-1/4">
+              <img
+                src={BackgroundStripes}
+                alt="Bg-Stripes"
+                className="flex justify-center w-[250px]"
+              />
+            </div>
+            <div className="px-4 my-4 flex align-center justify-center bg-[#84C43E] rounded-lg">
+              <div className="flex gap-6 flex-row justify-between ">
+                <Link
+                  className={
+                    " text-[#008914] text-md hover:text-white font-bold flex flex-col justify-center cursor-pointer"
+                  }
+                >
+                  <div className="flex flex-row justify-center">
+                    <UserIcon />
+                  </div>
+                  <label className=" flex flex-row justify-center cursor-pointer">
+                    Preferences
+                  </label>
+                </Link>
+                <Link
+                  onClick={logoutSupabase}
+                  className={
+                    " text-[#008914] text-md hover:text-white font-bold flex flex-col justify-center cursor-pointer"
+                  }
+                >
+                  <div className="flex flex-row justify-center">
+                    <LogoutIcon />
+                  </div>
+                  <label className=" flex flex-row justify-center cursor-pointer">
+                    Logout
+                  </label>
+                </Link>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center mr-10">
               <Link
-                onClick={logoutSupabase}
                 className={
-                  "text-gray-500 text-2xl mt-2 hover:text-white font-bold flex flex-row p-2"
+                  " text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
                 }
               >
-                <LogoutIcon />
-                <label className="ml-3 flex">Logout</label>
+                <div className="flex flex-row justify-center">
+                  <CartIcon />
+                </div>
+                <label className=" flex flex-row justify-center cursor-pointer">
+                  Your Cart
+                </label>
               </Link>
             </div>
-          </nav>
-        </aside>
+          </aside>
 
-        <main className="md:w-3/4 p-10 md:h-screen overflow-scroll">
-          <Outlet />
-        </main>
-      </div>
+          <main className="md:w-full md:h-full overflow-y-auto flex-grow mt-[100px] mb-[100px] bg-white">
+            <Outlet />
+          </main>
+
+          <div className="fixed bottom-0 w-full bg-[#008914] h-[80px] flex flex-col justify-center p-5 rounded-t-3xl">
+            <div className="flex flex-row justify-between">
+              <p>2023 Feed my Fridge, Inc. Todos los derechos reservados</p>
+              <p>Tecnológico de Monterrey</p>
+            </div>
+          </div>
+        </div>
+      </>
     );
   }
 }
