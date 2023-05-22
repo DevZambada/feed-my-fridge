@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate, Form, redirect } from "react-router-dom";
 import { AddIcon } from "../icons";
+import { CartContext } from "../features/cartContext";
 
 function Recommend() {
   const navigate = useNavigate();
+
+  const { cartItems, addToCart } = useContext(CartContext);
 
   const [popular, setPopular] = useState([]);
 
@@ -58,7 +61,10 @@ function Recommend() {
                 </div>
 
                 <div className="flex flex-col justify-between w-1/4 m-5">
-                  <div className="flex flex-row justify-end cursor-pointer text-black hover:text-white">
+                  <div
+                    className="flex flex-row justify-end cursor-pointer text-black hover:text-white"
+                    onClick={() => addToCart(recipe)}
+                  >
                     <AddIcon className="flex flex-row justify-end " />
                   </div>
                   <div className="flex flex-col justify-end mb-3">

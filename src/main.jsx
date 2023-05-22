@@ -14,6 +14,9 @@ import EditRecipe, {
 import { action as deleteRecipeAction } from "./components/Recipe";
 import Home from "./pages/Home";
 import Details, { loader as detailRecipeLoader } from "./pages/Details";
+import { CartProvider } from "./features/cartContext";
+import Cart from "./pages/Cart";
+import List from "./pages/List";
 
 const router = createBrowserRouter([
   {
@@ -34,22 +37,34 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "/recipes/:recipeId/edit",
-        element: <EditRecipe />,
-        loader: editRecipeLoader,
-        action: editRecipeAction,
+        path: "/recipes/cart",
+        element: <Cart />,
         errorElement: <ErrorPage />,
       },
       {
-        path: "/recipes/:recipeId/delete",
-        action: deleteRecipeAction,
+        path: "/recipes/list/",
+        element: <List />,
+        errorElement: <ErrorPage />,
       },
+      // {
+      //   path: "/recipes/:recipeId/edit",
+      //   element: <EditRecipe />,
+      //   loader: editRecipeLoader,
+      //   action: editRecipeAction,
+      //   errorElement: <ErrorPage />,
+      // },
+      // {
+      //   path: "/recipes/:recipeId/delete",
+      //   action: deleteRecipeAction,
+      // },
     ],
   },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <CartProvider>
+      <RouterProvider router={router} />
+    </CartProvider>
   </React.StrictMode>
 );

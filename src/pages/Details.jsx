@@ -1,3 +1,4 @@
+import { useContext } from "react";
 import {
   Form,
   useNavigate,
@@ -5,6 +6,8 @@ import {
   useActionData,
   redirect,
 } from "react-router-dom";
+
+import { CartContext } from "../features/cartContext";
 
 import { AddIcon } from "../icons";
 
@@ -26,6 +29,8 @@ function capitalizeFirstLetter(str) {
 function Details() {
   const navigate = useNavigate();
   const recipe = useLoaderData();
+
+  const { cartItems, addToCart } = useContext(CartContext);
 
   return (
     <div className="">
@@ -85,12 +90,15 @@ function Details() {
               </div>
             </div>
 
-            <div className="flex flex-col  bg-[#cdcdcd] rounded-lg p-3 h-[90px] cursor-pointer text-black hover:text-[#008914] hover:shadow-xl">
+            <div
+              className="flex flex-col justify-center bg-[#cdcdcd] rounded-lg p-3 h-[120px] cursor-pointer text-black hover:text-[#008914] hover:shadow-xl"
+              onClick={() => addToCart(recipe)}
+            >
               <div className="flex justify-center h-auto">
                 <AddIcon />
               </div>
               <div className="flex justify-center h-auto">
-                <p className=" font-bold text-xl">Add to Cart</p>
+                <p className=" font-bold text-lg">Add to Cart</p>
               </div>
             </div>
           </div>

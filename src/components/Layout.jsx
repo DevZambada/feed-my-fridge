@@ -7,6 +7,7 @@ import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { LogoutIcon, UserIcon, CartIcon } from "../icons";
 import LogoWhite2 from "../assets/LogoWhite.svg";
 import BackgroundStripes from "../assets/BackgroundStripes.svg";
+import Slogan from "../assets/Slogan.svg";
 
 const client = supabaseApi;
 
@@ -32,6 +33,10 @@ function Layout() {
     fetchUser();
   }, []);
 
+  const handleClick = (event) => {
+    event.preventDefault();
+  };
+
   useEffect(() => {
     client.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -48,8 +53,11 @@ function Layout() {
 
   if (!session) {
     return (
-      <div className="h-screen w-screen justify-center flex items-center bg-gray-900">
-        <div className="p-5 border-solid border-2 border-gray-700 rounded-lg w-[400px] ">
+      <div className="h-screen w-screen justify-between flex flex-row items-center bg-[#ffffff] p-16">
+        <div>
+          <img src={Slogan} alt="Slogan App" className="" />
+        </div>
+        <div className="p-5  w-[400px] ">
           <Auth
             supabaseClient={client}
             appearance={{
@@ -113,10 +121,9 @@ function Layout() {
               </div>
             </div>
             <div className="flex flex-col justify-center mr-10">
-              <Link
-                className={
-                  " text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
-                }
+              <div
+                className=" text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
+                onClick={() => navigate("recipes/cart")}
               >
                 <div className="flex flex-row justify-center">
                   <CartIcon />
@@ -124,7 +131,7 @@ function Layout() {
                 <label className=" flex flex-row justify-center cursor-pointer">
                   Your Cart
                 </label>
-              </Link>
+              </div>
             </div>
           </aside>
 
