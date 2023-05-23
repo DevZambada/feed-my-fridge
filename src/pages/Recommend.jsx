@@ -19,7 +19,7 @@ function Recommend() {
 
     if (check) {
       setPopular(JSON.parse(check));
-      console.log(JSON.parse(check));
+      //console.log(JSON.parse(check));
     } else {
       const api = await fetch(
         `https://api.spoonacular.com/recipes/random?apiKey=${

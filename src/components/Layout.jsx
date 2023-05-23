@@ -4,7 +4,7 @@ import { client as supabaseApi } from "../data/supabase";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 
-import { LogoutIcon, UserIcon, CartIcon } from "../icons";
+import { LogoutIcon, UserIcon, CartIcon, ListIcon } from "../icons";
 import LogoWhite2 from "../assets/LogoWhite.svg";
 import BackgroundStripes from "../assets/BackgroundStripes.svg";
 import Slogan from "../assets/Slogan.svg";
@@ -74,10 +74,14 @@ function Layout() {
         <div className="w-full overflow-hidden flex flex-col min-h-screen">
           <aside className="fixed flex flex-row justify-between h-[100px] w-full bg-[#008914] ">
             <div
-              className="mx-5 my-1 w-1/8 cursor-pointer"
+              className="mx-5 my-1 w-1/8 cursor-pointer flex flex-col justify-center"
               onClick={() => navigate("/")}
             >
-              <img src={LogoWhite2} alt="Logo Icon" className="w-[200px]" />
+              <img
+                src={LogoWhite2}
+                alt="Logo Icon"
+                className="w-[200px] min-w-[170px]"
+              />
             </div>
             <div className="w-3/8 flex flex-col justify-center">
               <h2 className="text-md font-black text-start text-[#ffffff] ">
@@ -120,7 +124,7 @@ function Layout() {
                 </Link>
               </div>
             </div>
-            <div className="flex flex-col justify-center mr-10">
+            <div className="flex flex-col justify-center">
               <div
                 className=" text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
                 onClick={() => navigate("recipes/cart")}
@@ -128,8 +132,21 @@ function Layout() {
                 <div className="flex flex-row justify-center">
                   <CartIcon />
                 </div>
-                <label className=" flex flex-row justify-center cursor-pointer">
+                <label className=" flex flex-row justify-center cursor-pointer text-center">
                   Your Cart
+                </label>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center mr-10">
+              <div
+                className=" text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
+                onClick={() => navigate("recipes/list")}
+              >
+                <div className="flex flex-row justify-center">
+                  <ListIcon />
+                </div>
+                <label className=" flex flex-row justify-center cursor-pointer text-center">
+                  Your List
                 </label>
               </div>
             </div>
