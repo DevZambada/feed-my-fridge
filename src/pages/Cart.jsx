@@ -2,10 +2,42 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../features/cartContext";
 import { RemoveIcon, InfoIcon } from "../icons";
+import { client as supabaseApi } from "../data/supabase";
+import { toast } from "react-toastify";
+
+const client = supabaseApi;
 
 function Cart() {
   const navigate = useNavigate();
   const { cartItems, removeFromCart } = useContext(CartContext);
+
+  //const [cartItems2, setCartItems2] = useState(null);
+
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data, error } = await client.auth.getUser();
+      if (error) {
+        console.error("Error fetching user:", error);
+      } else {
+        setUser(data.user);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  //const metadata = user.user_metadata;
+  //console.log(user.user_metadata);
+  //setCartItems2(metadata.cart);
+
+  const updateUserListSupabase = (ingredientList) => {
+    client.auth.updateUser({
+      data: {
+        list: ingredientList,
+      },
+    });
+  };
 
   const calculateTotalIngredients = () => {
     const ingredientMap = new Map();
@@ -43,18 +75,26 @@ function Cart() {
     // }
     const ingredientList = Array.from(ingredientMap);
 
+    updateUserListSupabase(ingredientList);
     localStorage.setItem("ingredientList", JSON.stringify(ingredientList));
 
-    handleNavigateToIngredientList(ingredientList);
+    toast.success("Shopping List created!", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: 3000, // Adjust the duration as needed
+    });
+
+    //handleNavigateToIngredientList(ingredientList);
   };
 
   return (
     <div className="mx-10">
       <h3 className="text-3xl font-black text-start mr-3 text-[#008914] mb-5 mt-8">
-        Your Recipes
+        My Recipes
       </h3>
       {cartItems.length === 0 ? (
-        <p>Your cart is empty.</p>
+        <p className="flex mt-10 text-xl font-semibold">
+          It looks empty here. How about searching for some recipes?
+        </p>
       ) : (
         <>
           <ul>
@@ -133,7 +173,7 @@ function Cart() {
             onClick={handleCalculateSum}
           >
             <h4 className=" font-extrabold text-white text-2xl text-center flex flex-row justify-center">
-              Create Your Shopping List
+              Create My Shopping List
             </h4>
           </div>
         </>

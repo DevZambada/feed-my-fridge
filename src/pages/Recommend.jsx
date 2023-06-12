@@ -37,7 +37,7 @@ function Recommend() {
     <div>
       <div>
         <h3 className="text-3xl font-black text-start ml-8 mr-3 text-[#008914] mb-5">
-          Based On Your Preferences
+          Main Recommendations
         </h3>
         <div className="h-[280px] w-screen rounded overflow-scroll flex gap-[20px]">
           {popular.map((recipe) => {

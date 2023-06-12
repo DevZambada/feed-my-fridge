@@ -3,6 +3,9 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import Layout from "./components/Layout";
 import ErrorPage from "./components/ErrorPage";
 import Home from "./pages/Home";
@@ -46,5 +49,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <CartProvider>
       <RouterProvider router={router} />
     </CartProvider>
+    <ToastContainer />
   </React.StrictMode>
 );

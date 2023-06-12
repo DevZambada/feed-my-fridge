@@ -1,13 +1,15 @@
-import { useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { client as supabaseApi } from "../data/supabase";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { toast } from "react-toastify";
+import { CartContext } from "../features/cartContext";
 
 import { LogoutIcon, UserIcon, CartIcon, ListIcon } from "../icons";
 import LogoWhite2 from "../assets/LogoWhite.svg";
 import BackgroundStripes from "../assets/BackgroundStripes.svg";
-import Slogan from "../assets/Slogan.svg";
+import Slogan from "../assets/Logo_Fmf.svg";
 
 const client = supabaseApi;
 
@@ -20,6 +22,14 @@ function Layout() {
   const location = useLocation();
   const [session, setSession] = useState(null);
   const [user, setUser] = useState(null);
+
+  const ingredientList =
+    JSON.parse(localStorage.getItem("ingredientList")) || [];
+
+  const { cartItems } = useContext(CartContext);
+
+  const recipeCount = cartItems.length;
+  const ingredientCount = ingredientList.length;
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -37,6 +47,17 @@ function Layout() {
     event.preventDefault();
   };
 
+  const navigateToShoppingList = () => {
+    if (ingredientList.length > 0) {
+      navigate("recipes/list");
+    } else {
+      toast.error("You don't have a Shopping List yet!", {
+        position: toast.POSITION.TOP_CENTER,
+        autoClose: 5000, // Adjust the duration as needed
+      });
+    }
+  };
+
   useEffect(() => {
     client.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
@@ -51,9 +72,11 @@ function Layout() {
     return () => subscription.unsubscribe();
   }, []);
 
+  console.log(session);
+
   if (!session) {
     return (
-      <div className="h-screen w-screen justify-between flex flex-row items-center bg-[#ffffff] p-16">
+      <div className="h-screen w-screen justify-around flex flex-row items-center bg-[#ffffff] p-16">
         <div>
           <img src={Slogan} alt="Slogan App" className="" />
         </div>
@@ -85,7 +108,7 @@ function Layout() {
             </div>
             <div className="w-3/8 flex flex-col justify-center">
               <h2 className="text-md font-black text-start text-[#ffffff] ">
-                {user && <p>Hello, {user.email}</p>}
+                {session && <p>Hello, {session.user.email}</p>}
               </h2>
             </div>
             <div className="flex justify-center w-1/4">
@@ -95,12 +118,51 @@ function Layout() {
                 className="flex justify-center w-[250px]"
               />
             </div>
-            <div className="px-4 my-4 flex align-center justify-center bg-[#84C43E] rounded-lg">
+
+            <div className="flex flex-col justify-center">
+              <div
+                className=" text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
+                onClick={() => navigate("recipes/cart")}
+              >
+                <div className="flex flex-row justify-center relative">
+                  <CartIcon />
+                  {recipeCount > 0 && (
+                    <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-xs p-3">
+                      {recipeCount}
+                    </span>
+                  )}
+                </div>
+                <label className=" flex flex-row justify-center cursor-pointer text-center">
+                  My Cart
+                </label>
+              </div>
+            </div>
+            <div className="flex flex-col justify-center mr-10">
+              <div
+                className=" text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
+                onClick={navigateToShoppingList}
+              >
+                <div className="flex flex-row justify-center relative">
+                  <ListIcon />
+                  {ingredientCount > 0 && (
+                    <span className="absolute top-0 right-0 bg-red-500 text-white rounded-full h-4 w-4 flex items-center justify-center text-xs p-3">
+                      {ingredientCount}
+                    </span>
+                  )}
+                </div>
+                <label className=" flex flex-row justify-center cursor-pointer text-center">
+                  My List
+                </label>
+              </div>
+            </div>
+
+            <div className="px-4 my-4 mr-10 flex align-center justify-center bg-[#84C43E] rounded-lg">
               <div className="flex gap-6 flex-row justify-between ">
-                <Link
+                {/* <div
                   className={
                     " text-[#008914] text-md hover:text-white font-bold flex flex-col justify-center cursor-pointer"
                   }
+                  onClick={() => navigate("/profile/preferences")}
                 >
                   <div className="flex flex-row justify-center">
                     <UserIcon />
@@ -108,7 +170,7 @@ function Layout() {
                   <label className=" flex flex-row justify-center cursor-pointer">
                     Preferences
                   </label>
-                </Link>
+                </div> */}
                 <Link
                   onClick={logoutSupabase}
                   className={
@@ -122,32 +184,6 @@ function Layout() {
                     Logout
                   </label>
                 </Link>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center">
-              <div
-                className=" text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
-                onClick={() => navigate("recipes/cart")}
-              >
-                <div className="flex flex-row justify-center">
-                  <CartIcon />
-                </div>
-                <label className=" flex flex-row justify-center cursor-pointer text-center">
-                  Your Cart
-                </label>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center mr-10">
-              <div
-                className=" text-white text-md mt-2 hover:text-[#84C43E] font-bold flex flex-col p-2 cursor-pointer"
-                onClick={() => navigate("recipes/list")}
-              >
-                <div className="flex flex-row justify-center">
-                  <ListIcon />
-                </div>
-                <label className=" flex flex-row justify-center cursor-pointer text-center">
-                  Your List
-                </label>
               </div>
             </div>
           </aside>
